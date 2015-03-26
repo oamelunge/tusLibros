@@ -1,8 +1,10 @@
 package com.example;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -21,5 +23,13 @@ public class MyResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
         return "Hello, Heroku!";
+    }
+    
+    @Path("lora")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String Prueba2(@DefaultValue("2") @QueryParam("step") int step)
+    {
+    	return "La concha de la lora"+step;
     }
 }
