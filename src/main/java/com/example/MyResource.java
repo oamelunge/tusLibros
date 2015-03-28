@@ -7,6 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import cartsystem.InsideRest;
+
 /**
  * Root resource (exposed at "myresource" path)
  */
@@ -25,11 +27,16 @@ public class MyResource {
         return "Hello, Heroku!";
     }
     
-    @Path("lora")
+
+    
+    @Path("createCart")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String Prueba2(@DefaultValue("2") @QueryParam("step") int step)
+    public String createCart(@DefaultValue("") @QueryParam("username") String username,
+    					  @DefaultValue("") @QueryParam("password") String password)
     {
-    	return "La concha de la lora"+step;
+    	InsideRest inside = new InsideRest();
+    	return "0|".concat(inside.createCart(username, password));
     }
+    
 }
