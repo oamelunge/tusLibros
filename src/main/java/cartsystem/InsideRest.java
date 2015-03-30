@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-
 import mergeandprocesorsystem.FakeMergeAndProcess;
 import mergeandprocesorsystem.IMergeAndProcess;
 
 public class InsideRest {
 	List<ActiveCart> _listOfActiveCart = new ArrayList<ActiveCart>();
+	Hashtable<String,String> _listOfUsers = new Hashtable<String, String>();
 	private Cart _cart;
 	private Cashier _cashier;
 	private LocalDateTime _time;
@@ -22,19 +22,39 @@ public class InsideRest {
 	public InsideRest(LocalDateTime _time) {
 		super();
 		this._time = _time;
+		settingUpUsers();
+		settingUpCart();
 	}
 
 	public InsideRest() {
-		// TODO Auto-generated constructor stub
+		settingUpUsers();
+		settingUpCart();
+		
 	}
 
 	public String createCart(String username, String password) {	
 		
-		settingUpCart();
+		validateUserPasswordCredentials(username, password);
+		
 		String id = creatingListOfActiveCarts();
 		return id;
 	}
+
+	private void validateUserPasswordCredentials(String username,
+			String password) {
+		if(_listOfUsers.containsKey(username))
+		{
+			if(!_listOfUsers.get(username).equals(password))
+				throw new RuntimeException("Invalid UserName or Password");
+		}
+		else
+			throw new RuntimeException("Invalid UserName or Password");
+	}
 	
+	private void settingUpUsers() {
+		_listOfUsers.put("oamelunge","Lagarto33");		
+	}
+
 	public List<Object> listCartItems(String id) {
 		return this.getActiveCart(id).get_cart().getlItems();
 	}
@@ -45,8 +65,8 @@ public class InsideRest {
 				.findFirst().get();
 	}
 
-	public void addItem(Object item, int quantity) {
-		_cart.add(item, quantity);
+	public void addItem(Object item, int quantity, String idCart) {
+		 this.getActiveCart(idCart).get_cart().add(item, quantity);
 	}
 	
 	public List<ActiveCart> get_listOfActiveCart() {
